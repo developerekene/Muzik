@@ -1,0 +1,6 @@
+{
+  "name": "Muzik",
+  "description": "High-fidelity offline and streaming music player with automatic artist and genre categorization, customizable 5-band equalizer, Bluetooth audio synchronization, and high-contrast light and dark themes.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
