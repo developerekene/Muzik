@@ -354,6 +354,10 @@ class MuzikViewModel(application: Application) : AndroidViewModel(application) {
         _statusBanner.value = null
     }
 
+    fun showStatusMessage(message: String) {
+        _statusBanner.value = message
+    }
+
     fun scanDeviceLibrary() {
         if (_isScanning.value) return
         viewModelScope.launch {

@@ -5,6 +5,7 @@ import com.devekene.muzik.data.local.MuzikDao
 import com.devekene.muzik.data.local.PlaylistEntity
 import com.devekene.muzik.data.local.EqPresetEntity
 import com.devekene.muzik.data.local.SettingsDataStore
+import com.devekene.muzik.data.local.TrackEntity
 import com.devekene.muzik.data.local.UserAudioPreferences
 import com.devekene.muzik.data.local.toDomain
 import com.devekene.muzik.data.model.AudioTrack
@@ -103,6 +104,34 @@ class MuzikRepository(
 
     suspend fun addStreamUrl(url: String, title: String?, artist: String?): AudioTrack {
         val entity = scanner.buildStreamTrack(url, title, artist)
+        dao.upsertTrack(entity)
+        return entity.toDomain()
+    }
+
+    suspend fun addAiGeneratedTrack(
+        uriString: String,
+        title: String,
+        genre: String,
+        durationMs: Long
+    ): AudioTrack {
+        val id = -(kotlin.math.abs(uriString.hashCode().toLong()) + 10_000L)
+        val entity = TrackEntity(
+            id = id,
+            uriString = uriString,
+            title = title.trim().ifBlank { "AI Studio Track" },
+            artist = "Muzik AI Studio",
+            album = "AI Studio Creations",
+            genre = genre.trim().ifBlank { "AI Studio" },
+            durationMs = durationMs.coerceAtLeast(1000L),
+            albumArtUri = null,
+            mimeType = "audio/wav",
+            formatLabel = "WAV",
+            sampleRateHz = 44100,
+            bitrateKbps = 705,
+            isLossless = true,
+            isOfflineAvailable = true,
+            dateAdded = System.currentTimeMillis()
+        )
         dao.upsertTrack(entity)
         return entity.toDomain()
     }

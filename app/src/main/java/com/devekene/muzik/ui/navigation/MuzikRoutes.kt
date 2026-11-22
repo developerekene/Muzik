@@ -12,7 +12,13 @@ data object LibraryRoute
 data object PlaylistsRoute
 
 @Serializable
+data object AiStudioRoute
+
+@Serializable
 data object StudioRoute
+
+@Serializable
+data object AboutDeveloperRoute
 
 @Serializable
 data class CollectionDetailRoute(

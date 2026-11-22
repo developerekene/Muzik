@@ -3,7 +3,9 @@
     <string name="nav_home">Home</string>
     <string name="nav_library">Library</string>
     <string name="nav_playlists">Playlists</string>
-    <string name="nav_studio">Studio</string>
+    <string name="nav_studio">AI Studio</string>
+    <string name="about_developer">About Developer</string>
+    <string name="cd_app_icon">Muzik app icon</string>
     <string name="search_placeholder">Search tracks, artists, genres, playlists…</string>
     <string name="cd_album_art">Album artwork</string>
     <string name="cd_play">Play</string>

@@ -1,5 +1,6 @@
 package com.devekene.muzik.ui.screens
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
@@ -23,6 +24,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.AddLink
 import androidx.compose.material.icons.rounded.BluetoothConnected
@@ -101,8 +103,12 @@ fun StudioScreen(
     onToggleDynamicColor: (Boolean) -> Unit,
     onScanAudio: () -> Unit,
     onImportAudio: () -> Unit,
-    onOpenAddStream: () -> Unit
+    onOpenAddStream: () -> Unit,
+    onBack: (() -> Unit)? = null
 ) {
+    if (onBack != null) {
+        BackHandler(onBack = onBack)
+    }
     var showSavePresetDialog by remember { mutableStateOf(false) }
 
     LazyColumn(
@@ -116,13 +122,24 @@ fun StudioScreen(
         modifier = Modifier.fillMaxSize()
     ) {
         item {
-            Column {
-                Text("Studio & Audio", style = MaterialTheme.typography.headlineMedium)
-                Text(
-                    "Equalizer, Bluetooth synchronization & theme",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                if (onBack != null) {
+                    IconButton(onClick = onBack, modifier = Modifier.testTag("settings_back_button")) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                            contentDescription = "Navigate back"
+                        )
+                    }
+                    Spacer(modifier = Modifier.width(6.dp))
+                }
+                Column {
+                    Text("Settings & Audio", style = MaterialTheme.typography.headlineMedium)
+                    Text(
+                        "Equalizer, Bluetooth synchronization & theme",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
             }
         }
 

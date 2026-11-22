@@ -25,10 +25,10 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.QueueMusic
 import androidx.compose.material.icons.automirrored.rounded.QueueMusic
-import androidx.compose.material.icons.outlined.GraphicEq
+import androidx.compose.material.icons.outlined.AutoAwesome
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.LibraryMusic
-import androidx.compose.material.icons.rounded.GraphicEq
+import androidx.compose.material.icons.rounded.AutoAwesome
 import androidx.compose.material.icons.rounded.Home
 import androidx.compose.material.icons.rounded.LibraryMusic
 import androidx.compose.material3.Icon
@@ -75,11 +75,15 @@ import com.devekene.muzik.ui.components.MiniPlayerBar
 import com.devekene.muzik.ui.components.QueueBottomSheet
 import com.devekene.muzik.ui.components.RightSideMenuDrawer
 import com.devekene.muzik.ui.components.TrackDetailsBottomSheet
+import com.devekene.muzik.ui.navigation.AboutDeveloperRoute
+import com.devekene.muzik.ui.navigation.AiStudioRoute
 import com.devekene.muzik.ui.navigation.CollectionDetailRoute
 import com.devekene.muzik.ui.navigation.HomeRoute
 import com.devekene.muzik.ui.navigation.LibraryRoute
 import com.devekene.muzik.ui.navigation.PlaylistsRoute
 import com.devekene.muzik.ui.navigation.StudioRoute
+import com.devekene.muzik.ui.screens.AboutDeveloperScreen
+import com.devekene.muzik.ui.screens.AiStudioScreen
 import com.devekene.muzik.ui.screens.CollectionDetailScreen
 import com.devekene.muzik.ui.screens.HomeScreen
 import com.devekene.muzik.ui.screens.LibraryScreen
@@ -121,9 +125,9 @@ private val TOP_DESTINATIONS = listOf(
     ),
     TopLevelDestination(
         labelRes = R.string.nav_studio,
-        selectedIcon = Icons.Rounded.GraphicEq,
-        unselectedIcon = Icons.Outlined.GraphicEq,
-        route = StudioRoute,
+        selectedIcon = Icons.Rounded.AutoAwesome,
+        unselectedIcon = Icons.Outlined.AutoAwesome,
+        route = AiStudioRoute,
         tag = "nav_studio"
     )
 )
@@ -469,6 +473,16 @@ fun MuzikApp(viewModel: MuzikViewModel = viewModel()) {
                                     )
                                 }
 
+                                composable<AiStudioRoute> {
+                                    AiStudioScreen(
+                                        bottomContentPadding = listBottomPadding,
+                                        onPlayTrackInPlayer = { track ->
+                                            viewModel.playTrack(track, listOf(track) + allTracks.filter { it.id != track.id })
+                                        },
+                                        onStatusMessage = viewModel::showStatusMessage
+                                    )
+                                }
+
                                 composable<StudioRoute> {
                                     StudioScreen(
                                         eqState = equalizerState,
@@ -491,7 +505,15 @@ fun MuzikApp(viewModel: MuzikViewModel = viewModel()) {
                                         onToggleDynamicColor = viewModel::setUseDynamicColor,
                                         onScanAudio = { triggerAudioScanOrPermission() },
                                         onImportAudio = { importFilesLauncher.launch(arrayOf("audio/*")) },
-                                        onOpenAddStream = { showAddStreamDialog = true }
+                                        onOpenAddStream = { showAddStreamDialog = true },
+                                        onBack = { navController.popBackStack() }
+                                    )
+                                }
+
+                                composable<AboutDeveloperRoute> {
+                                    AboutDeveloperScreen(
+                                        bottomContentPadding = listBottomPadding,
+                                        onBack = { navController.popBackStack() }
                                     )
                                 }
 
@@ -575,7 +597,7 @@ fun MuzikApp(viewModel: MuzikViewModel = viewModel()) {
                     onOpenBluetoothSheet = { showBluetoothSheet = true },
                     onOpenEqualizer = {
                         isNowPlayingOpen = false
-                        navigateTopLevel(StudioRoute)
+                        navController.navigate(StudioRoute) { launchSingleTop = true }
                     },
                     onOpenQueue = { showQueueSheet = true },
                     onShowDetails = { trackPendingDetails = it }
@@ -590,11 +612,14 @@ fun MuzikApp(viewModel: MuzikViewModel = viewModel()) {
                 onDismiss = { isMenuDrawerOpen = false },
                 onToggleTheme = viewModel::cycleLightDarkTheme,
                 onSelectThemeMode = viewModel::setThemeMode,
-                onOpenSettings = { navigateTopLevel(StudioRoute) },
+                onOpenSettings = { navController.navigate(StudioRoute) { launchSingleTop = true } },
                 onOpenBluetoothSync = { showBluetoothSheet = true },
                 onScanDeviceAudio = { triggerAudioScanOrPermission() },
                 onImportAudioFiles = { importFilesLauncher.launch(arrayOf("audio/*")) },
-                onAddStreamUrl = { showAddStreamDialog = true }
+                onAddStreamUrl = { showAddStreamDialog = true },
+                onOpenAboutDeveloper = {
+                    navController.navigate(AboutDeveloperRoute) { launchSingleTop = true }
+                }
             )
         }
 

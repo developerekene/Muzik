@@ -36,6 +36,7 @@ import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.DarkMode
 import androidx.compose.material.icons.rounded.FolderOpen
 import androidx.compose.material.icons.rounded.GraphicEq
+import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material.icons.rounded.LightMode
 import androidx.compose.material.icons.rounded.Refresh
 import androidx.compose.material.icons.rounded.Settings
@@ -74,7 +75,8 @@ fun RightSideMenuDrawer(
     onOpenBluetoothSync: () -> Unit,
     onScanDeviceAudio: () -> Unit,
     onImportAudioFiles: () -> Unit,
-    onAddStreamUrl: () -> Unit
+    onAddStreamUrl: () -> Unit,
+    onOpenAboutDeveloper: () -> Unit
 ) {
     BackHandler(enabled = visible, onBack = onDismiss)
 
@@ -290,6 +292,28 @@ fun RightSideMenuDrawer(
                         onClick = {
                             onDismiss()
                             onAddStreamUrl()
+                        }
+                    )
+
+                    Spacer(modifier = Modifier.height(18.dp))
+                    HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    Text(
+                        text = "ABOUT",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    Spacer(modifier = Modifier.height(10.dp))
+
+                    DrawerMenuItem(
+                        icon = Icons.Rounded.Info,
+                        title = stringResource(R.string.about_developer),
+                        subtitle = "Developer contact & Muzik community",
+                        testTag = "drawer_about_developer_button",
+                        onClick = {
+                            onDismiss()
+                            onOpenAboutDeveloper()
                         }
                     )
                 }
