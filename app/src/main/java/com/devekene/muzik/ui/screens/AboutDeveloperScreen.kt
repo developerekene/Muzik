@@ -60,6 +60,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import com.devekene.muzik.BuildConfig
 import com.devekene.muzik.R
 
 private const val DEVELOPER_CONTACT_URL = "https://ekenedilichukwu.com/contact"
@@ -116,7 +117,7 @@ fun AboutDeveloperScreen(
                         style = MaterialTheme.typography.headlineMedium
                     )
                     Text(
-                        text = "Built with care by Ekene",
+                        text = "Built with care by Ekene • v${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
